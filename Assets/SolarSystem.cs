@@ -9,6 +9,8 @@ public class SolarSystem : MonoBehaviour {
 
     GameObject[] planetObjects;
 
+    Random.State rngState;
+
     // Use this for initialization
     void Start()
     {
@@ -18,10 +20,30 @@ public class SolarSystem : MonoBehaviour {
 
         transform.localScale = new Vector3(size, size, size);
 
-        planetObjects = new GameObject[planets];
-        for (int i = 0; i < planets; ++i)
+        rngState = Random.state;
+    }
+
+    void Update()
+    {
+        GameObject cam = GameObject.Find("Main Camera");
+        if (cam == null)
+            return;
+
+        if(planetObjects == null && Vector3.Distance(cam.transform.position, transform.position) < UniverseSettings.PlanetOrbitDiameter.y)
         {
-            planetObjects[i] = Instantiate(UniverseSettings.Planet, transform.position + new Vector3(i, i, i), Quaternion.identity, transform);
+            planetObjects = new GameObject[planets];
+            for (int i = 0; i < planets; ++i)
+            {
+                planetObjects[i] = Instantiate(UniverseSettings.Planet, transform.position + new Vector3(i, i, i), Quaternion.identity, transform);
+            }
+        }
+        else if(planetObjects != null && Vector3.Distance(cam.transform.position, transform.position) > UniverseSettings.PlanetOrbitDiameter.y)
+        {
+            for (int i = 0; i < planets; ++i)
+            {
+                Destroy(planetObjects[i]);
+            }
+            planetObjects = null;
         }
     }
 }

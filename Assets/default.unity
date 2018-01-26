@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 90700104}
   - component: {fileID: 90700103}
   - component: {fileID: 90700102}
+  - component: {fileID: 90700106}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -187,13 +188,31 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 90700101}
-  m_LocalRotation: {x: 0.35077944, y: 0, z: 0, w: 0.9364581}
-  m_LocalPosition: {x: 0, y: 327.07, z: -385.3}
+  m_LocalRotation: {x: 0.094147794, y: -0.5350326, z: 0.060152195, w: 0.8374115}
+  m_LocalPosition: {x: -92.069374, y: 192.1137, z: -37.84966}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 41.07, y: 0, z: 0}
+--- !u!114 &90700106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 90700101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7975675157b28e429dc1f769375c19f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 20
+  minX: -360
+  maxX: 360
+  minY: -90
+  maxY: 90
+  sensX: 1000
+  sensY: 1000
 --- !u!1 &163994963
 GameObject:
   m_ObjectHideFlags: 0
@@ -223,11 +242,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Seed: 0
   UniverseScale: 100
-  GalaxyCells: 10
+  GalaxyCells: 1
   GalaxySizeRange: {x: 0.5, y: 5}
-  SolarSystemPerSize: 100
+  SolarSystemPerSize: 10
   PlanetNumberRange: {x: 0, y: 20}
-  StarSizeRange: {x: 0.1, y: 0.5}
+  StarSizeRange: {x: 0.01, y: 0.2}
   MoonNumberRange: {x: 0, y: 10}
   PlanetSizeRange: {x: 0.1, y: 0.5}
   PlanetOrbitDiameterRange: {x: 10, y: 200}
