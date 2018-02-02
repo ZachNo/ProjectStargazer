@@ -14,7 +14,7 @@ public class Moon : MonoBehaviour {
 	void Awake () {
         Random.InitState(UniverseSettings.Seed ^ Hash128.Parse(transform.position.ToString()).GetHashCode());
         size = Random.Range(UniverseSettings.MoonSize.x, UniverseSettings.MoonSize.y);
-        orbitTilt = Random.Range(0, 360);
+        orbitTilt = Random.Range(-90f, 90f);
         orbitDiameter = Random.Range(UniverseSettings.MoonOrbitDiameter.x, UniverseSettings.MoonOrbitDiameter.y);
         orbitSpeed = Random.Range(UniverseSettings.MoonOrbitSpeed.x, UniverseSettings.MoonOrbitSpeed.y);
         offset = Random.value * 100;

@@ -9,8 +9,6 @@ public class SolarSystem : MonoBehaviour {
 
     GameObject[] planetObjects;
 
-    Random.State rngState;
-
     // Use this for initialization
     void Start()
     {
@@ -19,8 +17,6 @@ public class SolarSystem : MonoBehaviour {
         planets = (int)Random.Range(UniverseSettings.PlanetNumber.x, UniverseSettings.PlanetNumber.y);
 
         transform.localScale = new Vector3(size, size, size);
-
-        rngState = Random.state;
     }
 
     void Update()

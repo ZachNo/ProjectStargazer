@@ -163,7 +163,7 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.3
-  far clip plane: 1000
+  far clip plane: 100000
   field of view: 60
   orthographic: 0
   orthographic size: 5
@@ -188,8 +188,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 90700101}
-  m_LocalRotation: {x: 0.094147794, y: -0.5350326, z: 0.060152195, w: 0.8374115}
-  m_LocalPosition: {x: -92.069374, y: 192.1137, z: -37.84966}
+  m_LocalRotation: {x: 0.2099033, y: -0.73577905, z: 0.26273462, w: 0.5878268}
+  m_LocalPosition: {x: 6.75, y: 5.825, z: 1.268}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -240,11 +240,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a4f3d7fd0dd2924384276b321536c73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Seed: 0
-  UniverseScale: 100
-  GalaxyCells: 1
-  GalaxySizeRange: {x: 0.5, y: 5}
-  SolarSystemPerSize: 10
+  GenerateUniverse: 1
+  Seed: 123456
+  UniverseScale: 500
+  GalaxyCells: 3
+  GalaxySizeRange: {x: 0.5, y: 2}
+  SolarSystemPerSize: 200
   PlanetNumberRange: {x: 0, y: 20}
   StarSizeRange: {x: 0.01, y: 0.2}
   MoonNumberRange: {x: 0, y: 10}
@@ -254,6 +255,7 @@ MonoBehaviour:
   MoonSizeRange: {x: 0.1, y: 0.5}
   MoonOrbitDiameterRange: {x: 10, y: 50}
   MoonOrbitSpeedRange: {x: 5, y: 20}
+  Galaxy: {fileID: 1593929743258728, guid: 561569afe1d77af4191aef301fbf95df, type: 2}
   SolarSystem: {fileID: 1431698090478518, guid: 66525c5201a955944ac304506fd099f4,
     type: 2}
   Planet: {fileID: 1301703206519246, guid: 5ba9295608d67a947943e915f03d49a2, type: 2}
@@ -336,43 +338,3 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &1114219412
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 5
-  m_Component:
-  - component: {fileID: 1114219417}
-  - component: {fileID: 1114219413}
-  m_Layer: 0
-  m_Name: Galaxy
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1114219413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1114219412}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a777b1daab0a9b64db73b3be9d2f87bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!4 &1114219417
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1114219412}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

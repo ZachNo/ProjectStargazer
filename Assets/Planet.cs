@@ -17,7 +17,7 @@ public class Planet : MonoBehaviour {
     void Awake () {
         Random.InitState(UniverseSettings.Seed ^ Hash128.Parse(transform.position.ToString()).GetHashCode());
         size = Random.Range(UniverseSettings.PlanetSize.x, UniverseSettings.PlanetSize.y);
-        orbitTilt = Random.Range(0, 360);
+        orbitTilt = Random.Range(-90f, 90f);
         orbitDiameter = Random.Range(UniverseSettings.PlanetOrbitDiameter.x, UniverseSettings.PlanetOrbitDiameter.y);
         orbitSpeed = Random.Range(UniverseSettings.PlanetOrbitSpeed.x, UniverseSettings.PlanetOrbitSpeed.y);
         moons = (int)Random.Range(UniverseSettings.MoonNumber.x, UniverseSettings.MoonNumber.y);
@@ -25,11 +25,11 @@ public class Planet : MonoBehaviour {
 
         transform.localScale = new Vector3(size, size, size);
 
-        moonObjects = new GameObject[moons];
+        /*moonObjects = new GameObject[moons];
         for(int i = 0; i < moons; ++i)
         {
             moonObjects[i] = Instantiate(UniverseSettings.Moon, transform.position + new Vector3(i, i, i), Quaternion.identity, transform);
-        }
+        }*/
     }
 	
 	// Update is called once per frame
@@ -39,5 +39,26 @@ public class Planet : MonoBehaviour {
             0f,
             orbitDiameter * Mathf.Cos(Time.time * (orbitSpeed / 100) + offset)
         );
+
+        GameObject cam = GameObject.Find("Main Camera");
+        if (cam == null)
+            return;
+
+        if (moonObjects == null && Vector3.Distance(cam.transform.position, transform.position) < UniverseSettings.MoonOrbitDiameter.y)
+        {
+            moonObjects = new GameObject[moons];
+            for (int i = 0; i < moons; ++i)
+            {
+                moonObjects[i] = Instantiate(UniverseSettings.Moon, transform.position + new Vector3(i, i, i), Quaternion.identity, transform);
+            }
+        }
+        else if (moonObjects != null && Vector3.Distance(cam.transform.position, transform.position) > UniverseSettings.MoonOrbitDiameter.y)
+        {
+            for (int i = 0; i < moons; ++i)
+            {
+                Destroy(moonObjects[i]);
+            }
+            moonObjects = null;
+        }
     }
 }

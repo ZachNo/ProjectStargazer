@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class UniverseGen : MonoBehaviour {
 
+    public bool GenerateUniverse = true;
+
     public int Seed = 0;
 
     [Header("Universe")]
@@ -40,9 +42,13 @@ public class UniverseGen : MonoBehaviour {
     public Vector2 MoonOrbitSpeedRange;
 
     [Header("Prefabs")]
+    public GameObject Galaxy;
     public GameObject SolarSystem;
     public GameObject Planet;
     public GameObject Moon;
+
+    //Private vars
+    GameObject[] galaxies;
 
     // Use this for initialization
     void Awake ()
@@ -74,9 +80,29 @@ public class UniverseGen : MonoBehaviour {
         UniverseSettings.MoonOrbitSpeed = MoonOrbitSpeedRange;
 
         //Prefabs
+        UniverseSettings.Galaxy = Galaxy;
         UniverseSettings.SolarSystem = SolarSystem;
         UniverseSettings.Planet = Planet;
         UniverseSettings.Moon = Moon;
+
+        //Generate Universe
+        //transform.localScale = new Vector3(UniverseScale, UniverseScale, UniverseScale);
+
+        if (GenerateUniverse)
+        {
+            galaxies = new GameObject[GalaxyCells * GalaxyCells * GalaxyCells];
+
+            for (int i = 0; i < GalaxyCells; ++i)
+            {
+                for (int j = 0; j < GalaxyCells; ++j)
+                {
+                    for (int k = 0; k < GalaxyCells; ++k)
+                    {
+                        Instantiate(Galaxy, transform.position + new Vector3(i, j, k) * UniverseScale, Quaternion.identity, transform);
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -109,6 +135,7 @@ public static class UniverseSettings {
     public static Vector2 MoonOrbitSpeed;
 
     //Prefabs
+    public static GameObject Galaxy;
     public static GameObject SolarSystem;
     public static GameObject Planet;
     public static GameObject Moon;
