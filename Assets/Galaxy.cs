@@ -8,7 +8,7 @@ public class Galaxy : MonoBehaviour {
     float size;
     int galaxyType;
 
-    float spiralSpread = 0.2f;
+    float spiralSpread = 0.1f;
 
     GameObject[] ssObjects;
 
@@ -32,11 +32,11 @@ public class Galaxy : MonoBehaviour {
                     break;
                 case 1:
                     float negative = Random.Range(-1f, 1f) > 0 ? 1 : -1;
-                    float t = Random.Range(0f, 5f);
-                    float x = negative * Mathf.Sqrt(t) * Mathf.Cos(t);
-                    float y = negative * Mathf.Sqrt(t) * Mathf.Sin(t);
+                    float t = Mathf.Pow(Random.value, 3) * 5f;
+                    float x = negative * Mathf.Sqrt(t) * Mathf.Cos(t) + Random.Range(-spiralSpread, spiralSpread) * (5.5f - t);
+                    float y = negative * Mathf.Sqrt(t) * Mathf.Sin(t) + Random.Range(-spiralSpread, spiralSpread) * (5.5f - t);
                     ssObjects[i] = Instantiate(UniverseSettings.SolarSystem,
-                        transform.position + new Vector3(x + Random.Range(-spiralSpread, spiralSpread), Random.Range(-spiralSpread, spiralSpread), y + Random.Range(-spiralSpread, spiralSpread)) * size * 100,
+                        transform.position + new Vector3(x, Random.Range(-spiralSpread, spiralSpread), y) * size * 100,
                         Quaternion.identity, transform);
                     break;
             }

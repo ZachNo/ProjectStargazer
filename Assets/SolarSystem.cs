@@ -17,6 +17,19 @@ public class SolarSystem : MonoBehaviour {
         planets = (int)Random.Range(UniverseSettings.PlanetNumber.x, UniverseSettings.PlanetNumber.y);
 
         transform.localScale = new Vector3(size, size, size);
+
+        /*GameObject cam = GameObject.Find("Main Camera");
+        if (cam == null)
+            return;
+
+        if (planetObjects == null && Vector3.Distance(cam.transform.position, transform.position) < UniverseSettings.PlanetOrbitDiameter.y)
+        {
+            planetObjects = new GameObject[planets];
+            for (int i = 0; i < planets; ++i)
+            {
+                planetObjects[i] = Instantiate(UniverseSettings.Planet, transform.position + new Vector3(i, i, i), Quaternion.identity, transform);
+            }
+        }*/
     }
 
     void Update()

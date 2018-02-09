@@ -24,11 +24,19 @@ public class Planet : MonoBehaviour {
         offset = Random.value * 100;
 
         transform.localScale = new Vector3(size, size, size);
+        transform.localRotation = new Quaternion(orbitTilt, orbitTilt, orbitTilt, orbitTilt);
 
-        /*moonObjects = new GameObject[moons];
-        for(int i = 0; i < moons; ++i)
+        /*GameObject cam = GameObject.Find("Main Camera");
+        if (cam == null)
+            return;
+
+        if (moonObjects == null && Vector3.Distance(cam.transform.position, transform.position) < UniverseSettings.MoonOrbitDiameter.y)
         {
-            moonObjects[i] = Instantiate(UniverseSettings.Moon, transform.position + new Vector3(i, i, i), Quaternion.identity, transform);
+            moonObjects = new GameObject[moons];
+            for (int i = 0; i < moons; ++i)
+            {
+                moonObjects[i] = Instantiate(UniverseSettings.Moon, transform.position + new Vector3(i, i, i), Quaternion.identity, transform);
+            }
         }*/
     }
 	
