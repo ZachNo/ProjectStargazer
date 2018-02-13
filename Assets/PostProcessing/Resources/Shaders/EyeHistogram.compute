@@ -44,10 +44,13 @@ void KEyeHistogram(uint2 dispatchThreadId : SV_DispatchThreadID, uint2 groupThre
 #endif
 
         float3 color = _Source[dispatchThreadId].xyz;
-        float luminance = Max3(color); // Looks more natural than using a Rec.709 luminance for some reason
-        float logLuminance = GetHistogramBinFromLuminance(luminance, _ScaleOffsetRes.xy);
-        uint idx = (uint)(logLuminance * (HISTOGRAM_BINS - 1u));
-        InterlockedAdd(gs_histogram[idx], weight);
+		if (length(color) > 0.01f)
+		{
+			float luminance = Max3(color); // Looks more natural than using a Rec.709 luminance for some reason
+			float logLuminance = GetHistogramBinFromLuminance(luminance, _ScaleOffsetRes.xy);
+			uint idx = (uint)(logLuminance * (HISTOGRAM_BINS - 1u));
+			InterlockedAdd(gs_histogram[idx], weight);
+		}
     }
 
     GroupMemoryBarrierWithGroupSync();

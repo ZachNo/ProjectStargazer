@@ -254,13 +254,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GenerateUniverse: 1
-  Seed: 123456
+  Seed: 1234567
   UniverseScale: 500
-  GalaxyCells: 3
-  GalaxySizeRange: {x: 0.5, y: 2}
-  SolarSystemPerSize: 200
+  GalaxyCells: 1
+  GalaxySizeRange: {x: 0.5, y: 5}
+  SolarSystemPerSize: 1000
   PlanetNumberRange: {x: 0, y: 20}
-  StarSizeRange: {x: 0.01, y: 0.2}
+  StarSizeRange: {x: 0.2, y: 0.5}
   MoonNumberRange: {x: 0, y: 10}
   PlanetSizeRange: {x: 0.1, y: 0.5}
   PlanetOrbitDiameterRange: {x: 10, y: 200}

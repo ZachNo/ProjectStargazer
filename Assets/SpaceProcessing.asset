@@ -83,28 +83,28 @@ MonoBehaviour:
       sampleCount: 10
       frameBlending: 0
   eyeAdaptation:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
-      lowPercent: 92.539665
-      highPercent: 99
+      lowPercent: 1
+      highPercent: 99.00001
       minLuminance: -16
       maxLuminance: 16
       keyValue: 0.5
-      dynamicKeyValue: 0
+      dynamicKeyValue: 1
       adaptationType: 0
       speedUp: 5
       speedDown: 5
-      logMin: -16
+      logMin: -6
       logMax: 16
   bloom:
-    m_Enabled: 1
+    m_Enabled: 0
     m_Settings:
       bloom:
         intensity: 0.1
         threshold: 1.1
-        softKnee: 0.354
-        radius: 5.02
-        antiFlicker: 0
+        softKnee: 0.6
+        radius: 5
+        antiFlicker: 1
       lensDirt:
         texture: {fileID: 0}
         intensity: 0
