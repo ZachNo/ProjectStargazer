@@ -257,15 +257,15 @@ MonoBehaviour:
   Seed: 1234567
   UniverseScale: 500
   GalaxyCells: 1
-  GalaxySizeRange: {x: 0.5, y: 5}
-  SolarSystemPerSize: 1000
+  GalaxySizeRange: {x: 0.1, y: 0.5}
+  SolarSystemPerSize: 10000
   PlanetNumberRange: {x: 0, y: 20}
-  StarSizeRange: {x: 0.2, y: 0.5}
+  StarSizeRange: {x: 0.05, y: 0.2}
   MoonNumberRange: {x: 0, y: 10}
-  PlanetSizeRange: {x: 0.1, y: 0.5}
+  PlanetSizeRange: {x: 0.05, y: 0.2}
   PlanetOrbitDiameterRange: {x: 10, y: 200}
   PlanetOrbitSpeedRange: {x: 0.1, y: 10}
-  MoonSizeRange: {x: 0.1, y: 0.5}
+  MoonSizeRange: {x: 0.01, y: 0.2}
   MoonOrbitDiameterRange: {x: 10, y: 50}
   MoonOrbitSpeedRange: {x: 5, y: 20}
   Galaxy: {fileID: 1593929743258728, guid: 561569afe1d77af4191aef301fbf95df, type: 2}
