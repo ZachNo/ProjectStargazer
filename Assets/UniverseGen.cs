@@ -46,6 +46,7 @@ public class UniverseGen : MonoBehaviour {
     public GameObject SolarSystem;
     public GameObject Planet;
     public GameObject Moon;
+    public GameObject Gas;
 
     //Private vars
     GameObject[] galaxies;
@@ -84,6 +85,7 @@ public class UniverseGen : MonoBehaviour {
         UniverseSettings.SolarSystem = SolarSystem;
         UniverseSettings.Planet = Planet;
         UniverseSettings.Moon = Moon;
+        UniverseSettings.Gas = Gas;
 
         //Generate Universe
         //transform.localScale = new Vector3(UniverseScale, UniverseScale, UniverseScale);
@@ -139,4 +141,5 @@ public static class UniverseSettings {
     public static GameObject SolarSystem;
     public static GameObject Planet;
     public static GameObject Moon;
+    public static GameObject Gas;
 }

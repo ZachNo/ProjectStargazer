@@ -10,6 +10,7 @@ public class Planet : MonoBehaviour {
     float orbitDiameter;
     float orbitSpeed;
     float offset;
+    float distToShow;
 
     GameObject[] moonObjects;
 
@@ -26,6 +27,8 @@ public class Planet : MonoBehaviour {
         transform.localScale = new Vector3(size, size, size);
         transform.localRotation = new Quaternion(orbitTilt, orbitTilt, orbitTilt, orbitTilt);
 
+        distToShow = UniverseSettings.MoonOrbitDiameter.y * size * UniverseSettings.StarSize.y * UniverseSettings.GalaxySize.y;
+
         /*GameObject cam = GameObject.Find("Main Camera");
         if (cam == null)
             return;
@@ -41,7 +44,8 @@ public class Planet : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
         transform.localPosition = new Vector3(
             orbitDiameter * Mathf.Sin(Time.time * (orbitSpeed / 100) + offset),
             0f,
@@ -52,7 +56,7 @@ public class Planet : MonoBehaviour {
         if (cam == null)
             return;
 
-        if (moonObjects == null && Vector3.Distance(cam.transform.position, transform.position) < UniverseSettings.MoonOrbitDiameter.y)
+        if (moonObjects == null && Vector3.Distance(cam.transform.position, transform.position) < distToShow)
         {
             moonObjects = new GameObject[moons];
             for (int i = 0; i < moons; ++i)
@@ -60,7 +64,7 @@ public class Planet : MonoBehaviour {
                 moonObjects[i] = Instantiate(UniverseSettings.Moon, transform.position + new Vector3(i, i, i), Quaternion.identity, transform);
             }
         }
-        else if (moonObjects != null && Vector3.Distance(cam.transform.position, transform.position) > UniverseSettings.MoonOrbitDiameter.y)
+        else if (moonObjects != null && Vector3.Distance(cam.transform.position, transform.position) > distToShow)
         {
             for (int i = 0; i < moons; ++i)
             {

@@ -7,6 +7,7 @@ public class SolarSystem : MonoBehaviour {
     int planets;
     float size;
     int temperature;
+    float distToShow;
 
     GameObject[] planetObjects;
 
@@ -24,25 +25,10 @@ public class SolarSystem : MonoBehaviour {
         tempColor.r *= intensity;
         tempColor.g *= intensity;
         tempColor.b *= intensity;
-    }
 
-    // Use this for initialization
-    void Start()
-    {
+        distToShow = UniverseSettings.PlanetOrbitDiameter.y * size * UniverseSettings.GalaxySize.y;
+
         transform.localScale = new Vector3(size, size, size);
-
-        /*GameObject cam = GameObject.Find("Main Camera");
-        if (cam == null)
-            return;
-
-        if (planetObjects == null && Vector3.Distance(cam.transform.position, transform.position) < UniverseSettings.PlanetOrbitDiameter.y)
-        {
-            planetObjects = new GameObject[planets];
-            for (int i = 0; i < planets; ++i)
-            {
-                planetObjects[i] = Instantiate(UniverseSettings.Planet, transform.position + new Vector3(i, i, i), Quaternion.identity, transform);
-            }
-        }*/
     }
 
     void Update()
@@ -51,7 +37,7 @@ public class SolarSystem : MonoBehaviour {
         if (cam == null)
             return;
 
-        if(planetObjects == null && Vector3.Distance(cam.transform.position, transform.position) < UniverseSettings.PlanetOrbitDiameter.y)
+        if(planetObjects == null && Vector3.Distance(cam.transform.position, transform.position) < distToShow)
         {
             planetObjects = new GameObject[planets];
             for (int i = 0; i < planets; ++i)
@@ -59,7 +45,7 @@ public class SolarSystem : MonoBehaviour {
                 planetObjects[i] = Instantiate(UniverseSettings.Planet, transform.position + new Vector3(i, i, i), Quaternion.identity, transform);
             }
         }
-        else if(planetObjects != null && Vector3.Distance(cam.transform.position, transform.position) > UniverseSettings.PlanetOrbitDiameter.y)
+        else if(planetObjects != null && Vector3.Distance(cam.transform.position, transform.position) > distToShow)
         {
             for (int i = 0; i < planets; ++i)
             {

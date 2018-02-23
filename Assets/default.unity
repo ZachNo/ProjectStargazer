@@ -177,7 +177,7 @@ Camera:
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
-  m_AllowMSAA: 0
+  m_AllowMSAA: 1
   m_AllowDynamicResolution: 0
   m_ForceIntoRT: 0
   m_OcclusionCulling: 1
@@ -259,13 +259,13 @@ MonoBehaviour:
   GalaxyCells: 1
   GalaxySizeRange: {x: 0.1, y: 0.5}
   SolarSystemPerSize: 10000
-  PlanetNumberRange: {x: 0, y: 20}
-  StarSizeRange: {x: 0.05, y: 0.2}
+  PlanetNumberRange: {x: 0, y: 10}
+  StarSizeRange: {x: 0.01, y: 0.2}
   MoonNumberRange: {x: 0, y: 10}
-  PlanetSizeRange: {x: 0.05, y: 0.2}
+  PlanetSizeRange: {x: 0.01, y: 0.3}
   PlanetOrbitDiameterRange: {x: 10, y: 200}
   PlanetOrbitSpeedRange: {x: 0.1, y: 10}
-  MoonSizeRange: {x: 0.01, y: 0.2}
+  MoonSizeRange: {x: 0.1, y: 0.3}
   MoonOrbitDiameterRange: {x: 10, y: 50}
   MoonOrbitSpeedRange: {x: 5, y: 20}
   Galaxy: {fileID: 1593929743258728, guid: 561569afe1d77af4191aef301fbf95df, type: 2}
@@ -273,6 +273,7 @@ MonoBehaviour:
     type: 2}
   Planet: {fileID: 1301703206519246, guid: 5ba9295608d67a947943e915f03d49a2, type: 2}
   Moon: {fileID: 1333530766943846, guid: 78df7297fefa9c44784e70aed89cc6a1, type: 2}
+  Gas: {fileID: 1444188809627506, guid: 4f32e3becc65ba349814a4809dec0e0f, type: 2}
 --- !u!4 &163994965
 Transform:
   m_ObjectHideFlags: 0
@@ -351,3 +352,45 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1001 &1040534558
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4159549956698642, guid: 4f32e3becc65ba349814a4809dec0e0f, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159549956698642, guid: 4f32e3becc65ba349814a4809dec0e0f, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159549956698642, guid: 4f32e3becc65ba349814a4809dec0e0f, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159549956698642, guid: 4f32e3becc65ba349814a4809dec0e0f, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159549956698642, guid: 4f32e3becc65ba349814a4809dec0e0f, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159549956698642, guid: 4f32e3becc65ba349814a4809dec0e0f, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159549956698642, guid: 4f32e3becc65ba349814a4809dec0e0f, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4159549956698642, guid: 4f32e3becc65ba349814a4809dec0e0f, type: 2}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 4f32e3becc65ba349814a4809dec0e0f, type: 2}
+  m_IsPrefabParent: 0
