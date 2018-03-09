@@ -86,10 +86,10 @@ MonoBehaviour:
     m_Enabled: 1
     m_Settings:
       lowPercent: 1
-      highPercent: 99.00001
+      highPercent: 99
       minLuminance: -16
       maxLuminance: 16
-      keyValue: 0.5
+      keyValue: 0.2
       dynamicKeyValue: 1
       adaptationType: 0
       speedUp: 1
@@ -97,13 +97,13 @@ MonoBehaviour:
       logMin: -16
       logMax: 16
   bloom:
-    m_Enabled: 0
+    m_Enabled: 1
     m_Settings:
       bloom:
         intensity: 0.5
-        threshold: 1.1
+        threshold: 1.4
         softKnee: 1
-        radius: 5
+        radius: 5.01
         antiFlicker: 1
       lensDirt:
         texture: {fileID: 0}
