@@ -34,7 +34,6 @@ public class Galaxy : MonoBehaviour {
         gasObjects = new GameObject[(int)Mathf.Ceil(ss / (float)starsPerCloud)];
 
         Color avgColor = new Color();
-        int starsCounter = 0;
 
         for (int i = 0; i < ss; ++i)
         {
@@ -54,25 +53,21 @@ public class Galaxy : MonoBehaviour {
                     break;
             }
 
-            starsCounter += 1;
             avgColor += ssObjects[i].GetComponent<SolarSystem>().tempColor;
-
-            if (starsCounter == starsPerCloud)
-            {
-                starsCounter = 0;
-                Vector3 pos = ssObjects[i].transform.position;
-                float maxComp = avgColor.maxColorComponent;
-                avgColor.r /= maxComp;// * Mathf.Sqrt(pos.magnitude);
-                avgColor.g /= maxComp;// * Mathf.Sqrt(pos.magnitude);
-                avgColor.b /= maxComp;// * Mathf.Sqrt(pos.magnitude);
-                avgColor.a = 1;
-
-                gasObjects[i / starsPerCloud] = Instantiate(UniverseSettings.Gas, pos, Quaternion.identity, transform);
-
-                var particleSystem = gasObjects[i / starsPerCloud].GetComponent<ParticleSystem>().main;
-                particleSystem.startColor = avgColor;
-            }
         }
+
+        float maxComp = avgColor.maxColorComponent;
+        avgColor.r /= maxComp;// * Mathf.Sqrt(pos.magnitude);
+        avgColor.g /= maxComp;// * Mathf.Sqrt(pos.magnitude);
+        avgColor.b /= maxComp;// * Mathf.Sqrt(pos.magnitude);
+        avgColor.a = 1;
+
+        gasObjects[0] = Instantiate(UniverseSettings.Gas, Vector3.zero, Quaternion.identity, transform);
+   
+        var particleSystem = gasObjects[0].GetComponent<ParticleSystem>().main;
+        particleSystem.startColor = avgColor;
+
+
     }
 
     void Update()
