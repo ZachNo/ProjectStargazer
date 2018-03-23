@@ -19,7 +19,12 @@ public class GenerateMesh : MonoBehaviour {
     {
         galaxyMesh = new Mesh();
 
-        GetComponent<MeshFilter>().mesh = galaxyMesh;
+        if(GetComponent<ParticleSystem>() != null)
+        {
+            ParticleSystem.ShapeModule s = GetComponent<ParticleSystem>().shape;
+            s.mesh = galaxyMesh;
+        }
+        //GetComponent<MeshFilter>().mesh = galaxyMesh;
 
         MeshData m = generate();
 
@@ -64,14 +69,14 @@ public class GenerateMesh : MonoBehaviour {
             if(i == 0)
             {
                 //Add first vert
-                m.vertices.Add(pos);
+                m.vertices.Add(pos * 30);
                 lastVeritices.Add(0);
             }
             else if(i == segments - 1)
             {
                 //Last vert only needs to add self and connect to last verts
                 int vertIndex = m.vertices.Count;
-                m.vertices.Add(pos);
+                m.vertices.Add(pos * 30);
                 for(int j = 0; j < lastVeritices.Count; ++j)
                 {
                     m.triangles.Add(vertIndex);
@@ -105,7 +110,7 @@ public class GenerateMesh : MonoBehaviour {
                     }
                     pos = pos + direction * offset;
 
-                    m.vertices.Add(pos);
+                    m.vertices.Add(pos * 30);
                 }
 
                 if (i == 1)
