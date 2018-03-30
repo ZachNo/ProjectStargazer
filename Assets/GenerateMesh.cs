@@ -7,7 +7,9 @@ public class GenerateMesh : MonoBehaviour {
 
     public Mesh galaxyMesh;
 
-    int segments = 21;
+    int segments = 16;
+    int vertsPerSegment = 4;
+    float overall_spread = 0.1f;
 
     class MeshData
     {
@@ -24,7 +26,10 @@ public class GenerateMesh : MonoBehaviour {
             ParticleSystem.ShapeModule s = GetComponent<ParticleSystem>().shape;
             s.mesh = galaxyMesh;
         }
-        //GetComponent<MeshFilter>().mesh = galaxyMesh;
+        else if(GetComponent<MeshFilter>() != null)
+        {
+            GetComponent<MeshFilter>().mesh = galaxyMesh;
+        }
 
         MeshData m = generate();
 
@@ -34,11 +39,6 @@ public class GenerateMesh : MonoBehaviour {
         galaxyMesh.SetTriangles(m.triangles, 0);
 
         galaxyMesh.RecalculateBounds();
-
-        /*foreach(Vector3 v in m.vertices)
-        {
-            Debug.Log(v);
-        }*/
     }
 
     //Generates spiral galaxy mesh
@@ -48,106 +48,94 @@ public class GenerateMesh : MonoBehaviour {
         m.vertices = new List<Vector3>();
         m.triangles = new List<int>();
 
-        float halfSegments = segments / 2f;
-
         List<int> lastVeritices = new List<int>();
 
         for(int i = 0; i < segments; ++i)
-        {
-            float negative = i > halfSegments ? 1 : -1;
-            float t = Mathf.Abs(i - halfSegments) / halfSegments * 5f;
-            float x = negative * Mathf.Sqrt(t) * Mathf.Cos(t);
-            float y = negative * Mathf.Sqrt(t) * Mathf.Sin(t);
-            float spread = (5.5f - t) * 0.1f;
+            AddSegment(i, ref m, ref lastVeritices);
 
-            Vector3 pos = new Vector3(x, 0, y);
-
-            Vector3 nextForDir = new Vector3(negative * Mathf.Sqrt(t + 0.1f) * Mathf.Cos(t + 0.1f), 0, negative * Mathf.Sqrt(t + 0.1f) * Mathf.Sin(t + 0.1f));
-
-            Quaternion direction = Quaternion.LookRotation((pos - nextForDir).normalized);
-
-            if(i == 0)
-            {
-                //Add first vert
-                m.vertices.Add(pos * 30);
-                lastVeritices.Add(0);
-            }
-            else if(i == segments - 1)
-            {
-                //Last vert only needs to add self and connect to last verts
-                int vertIndex = m.vertices.Count;
-                m.vertices.Add(pos * 30);
-                for(int j = 0; j < lastVeritices.Count; ++j)
-                {
-                    m.triangles.Add(vertIndex);
-                    m.triangles.Add(lastVeritices[j]);
-                    m.triangles.Add(lastVeritices[(j + 1) % lastVeritices.Count]);
-                }
-            }
-            else
-            {
-                List<int> newVerts = new List<int>();
-
-                //Only supports 4 sided right now
-                //Generate vertices for new segment
-                for (int j = 0; j < 4; ++j)
-                {
-                    newVerts.Add(m.vertices.Count);
-
-                    Vector3 offset = new Vector3();
-
-                    //Needs different code to support arbitrary sided mesh
-                    switch (j)
-                    {
-                        case 0:
-                            offset = new Vector3(spread, 0, 0); break;
-                        case 1:
-                            offset = new Vector3(0, spread, 0); break;
-                        case 2:
-                            offset = new Vector3(-spread, 0, 0); break;
-                        case 3:
-                            offset = new Vector3(0, -spread, 0); break;
-                    }
-                    pos = pos + direction * offset;
-
-                    m.vertices.Add(pos * 30);
-                }
-
-                if (i == 1)
-                {
-                    for (int j = 0; j < newVerts.Count; ++j)
-                    {
-                        m.triangles.Add(lastVeritices[0]);
-                        m.triangles.Add(newVerts[j]);
-                        m.triangles.Add(newVerts[(j + 1) % newVerts.Count]);
-                    }
-                }
-                else
-                {
-                    //Add polygons attaching new segment to old segment
-                    for (int j = 0; j < lastVeritices.Count; ++j)
-                    {
-                        int anchor1 = j;
-                        int anchor2 = (j + 1) % lastVeritices.Count;
-
-                        m.triangles.Add(newVerts[anchor1]);
-                        m.triangles.Add(lastVeritices[anchor2]);
-                        m.triangles.Add(lastVeritices[anchor1]);
-
-                        m.triangles.Add(newVerts[anchor1]);
-                        m.triangles.Add(newVerts[anchor2]);
-                        m.triangles.Add(lastVeritices[anchor2]);
-                        
-                    }
-                }
-
-                lastVeritices.Clear();
-                lastVeritices.AddRange(newVerts);
-
-                Assert.IsTrue(lastVeritices.Count == 4);
-            }
-        }
+        MirrorAndAdd(ref m);
 
         return m;
+    }
+
+    void AddSegment(int i, ref MeshData m, ref List<int> lastVeritices)
+    {
+        float t = i / (segments - 1f) * 5f;
+        float x = Mathf.Sqrt(t) * Mathf.Cos(t);
+        float y = Mathf.Sqrt(t) * Mathf.Sin(t);
+        float spread = (5.5f - t) * overall_spread;
+
+        Vector3 pos = new Vector3(x, 0, y);
+
+        t = (i + 0.1f) / (segments - 1f) * 5f;
+
+        Vector3 nextForDir = pos - new Vector3(Mathf.Sqrt(t) * Mathf.Cos(t), 0, Mathf.Sqrt(t) * Mathf.Sin(t));
+
+        Debug.DrawRay(pos * 30, nextForDir * 30, Color.red, 1000);
+
+        Quaternion direction = Quaternion.LookRotation(nextForDir.normalized);
+
+        if (i == segments - 1)
+        {
+            //Last vert only needs to add self and connect to last verts
+            int vertIndex = m.vertices.Count;
+            m.vertices.Add(pos * 30);
+            for (int j = 0; j < lastVeritices.Count; ++j)
+            {
+                m.triangles.Add(vertIndex);
+                m.triangles.Add(lastVeritices[j]);
+                m.triangles.Add(lastVeritices[(j + 1) % lastVeritices.Count]);
+            }
+        }
+        else
+        {
+            List<int> newVerts = new List<int>();
+
+            //Only supports 4 sided right now
+            //Generate vertices for new segment
+            for (int j = 0; j < vertsPerSegment; ++j)
+            {
+                newVerts.Add(m.vertices.Count);
+                Vector3 offset = vertIndexToVec(j, direction.eulerAngles.y) * spread;
+                offset.y *= 0.2f; // Squish up/down
+
+                m.vertices.Add((pos + offset) * 30);
+            }
+
+            //Add polygons attaching new segment to old segment
+            for (int j = 0; j < lastVeritices.Count; ++j)
+            {
+                int anchor1 = j;
+                int anchor2 = (j + 1) % lastVeritices.Count;
+
+                m.triangles.Add(newVerts[anchor1]);
+                m.triangles.Add(lastVeritices[anchor2]);
+                m.triangles.Add(lastVeritices[anchor1]);
+
+                m.triangles.Add(newVerts[anchor1]);
+                m.triangles.Add(newVerts[anchor2]);
+                m.triangles.Add(lastVeritices[anchor2]);
+            }
+
+            lastVeritices.Clear();
+            lastVeritices.AddRange(newVerts);
+        }
+    }
+
+    void MirrorAndAdd(ref MeshData m)
+    {
+        int vertCount = m.vertices.Count;
+        int triCount = m.triangles.Count;
+
+        for(int i = 0; i < vertCount; ++i)
+            m.vertices.Add(-m.vertices[i]);
+
+        for (int i = 0; i < triCount; ++i)
+            m.triangles.Add(m.triangles[i] + vertCount);
+    }
+
+    Vector3 vertIndexToVec(int i, float angle)
+    {
+        return Quaternion.Euler(0, angle, i * 360f / vertsPerSegment) * Vector3.up;
     }
 }
