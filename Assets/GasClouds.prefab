@@ -54,6 +54,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   galaxyMesh: {fileID: 0}
+  segments: 16
+  vertsPerSegment: 4
+  overall_spread: 0.1
 --- !u!198 &198110776812798912
 ParticleSystem:
   m_ObjectHideFlags: 1

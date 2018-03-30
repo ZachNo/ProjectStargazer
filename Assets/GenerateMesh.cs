@@ -7,9 +7,9 @@ public class GenerateMesh : MonoBehaviour {
 
     public Mesh galaxyMesh;
 
-    int segments = 16;
-    int vertsPerSegment = 4;
-    float overall_spread = 0.1f;
+    public int segments = 16;
+    public int vertsPerSegment = 4;
+    public float overall_spread = 0.1f;
 
     int galaxyType = -1;
     float size = 0;
@@ -22,15 +22,15 @@ public class GenerateMesh : MonoBehaviour {
 
     void Start()
     {
-        if (transform.parent.GetComponent<Galaxy>() != null)
+        if (transform.parent != null && transform.parent.GetComponent<Galaxy>() != null)
         {
             galaxyType = transform.parent.GetComponent<Galaxy>().galaxyType;
             size = transform.parent.GetComponent<Galaxy>().size * 50;
         }
-
-        if(galaxyType == -1)
+        else
         {
-            return;
+            size = 5;
+            galaxyType = 1;
         }
 
         galaxyMesh = new Mesh();

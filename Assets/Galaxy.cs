@@ -18,7 +18,7 @@ public class Galaxy : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        Random.InitState(UniverseSettings.Seed ^ Hash128.Parse(transform.position.ToString()).GetHashCode());
+        Random.InitState((UniverseSettings.Seed * int.MaxValue) ^ Hash128.Parse(transform.position.ToString()).GetHashCode());
         size = Random.Range(UniverseSettings.GalaxySize.x, UniverseSettings.GalaxySize.y);
         ss = (int)(UniverseSettings.SolarSystemPerSize * size);
         galaxyType = Random.Range(0, 2);
@@ -30,15 +30,23 @@ public class Galaxy : MonoBehaviour {
 
         gasObjects = new GameObject[2];
 
-        Color randomColor = Random.ColorHSV(0, 1, 0, 0.4f, 0.7f, 1);
-
         gasObjects[0] = Instantiate(UniverseSettings.Gas, transform.position, transform.rotation, transform);
         gasObjects[1] = Instantiate(UniverseSettings.GasDark, transform.position, transform.rotation, transform);
         gasObjects[0].SetActive(true);
         gasObjects[1].SetActive(true);
 
+        Color randomColor = Random.ColorHSV(0, 1, 0, 0.2f, 0.5f, 0.9f);
+
         var particleSystem = gasObjects[0].GetComponent<ParticleSystem>().main;
         particleSystem.startColor = randomColor;
+        particleSystem.maxParticles = (int)(size * 10000);
+
+        randomColor = Random.ColorHSV(0, 1, 0, 1, 0.7f, 1, 0.1f, 0.3f);
+
+        var particleSystem2 = gasObjects[1].GetComponent<ParticleSystem>().main;
+        particleSystem2.startColor = randomColor;
+
+        particleSystem2.maxParticles = (int)(size * 10000);
 
         regenStars = Random.state;
     }
