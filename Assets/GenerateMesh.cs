@@ -11,6 +11,9 @@ public class GenerateMesh : MonoBehaviour {
     int vertsPerSegment = 4;
     float overall_spread = 0.1f;
 
+    int galaxyType = -1;
+    float size = 0;
+
     class MeshData
     {
         public List<Vector3> vertices;
@@ -19,6 +22,17 @@ public class GenerateMesh : MonoBehaviour {
 
     void Start()
     {
+        if (transform.parent.GetComponent<Galaxy>() != null)
+        {
+            galaxyType = transform.parent.GetComponent<Galaxy>().galaxyType;
+            size = transform.parent.GetComponent<Galaxy>().size * 50;
+        }
+
+        if(galaxyType == -1)
+        {
+            return;
+        }
+
         galaxyMesh = new Mesh();
 
         if(GetComponent<ParticleSystem>() != null)
@@ -31,7 +45,7 @@ public class GenerateMesh : MonoBehaviour {
             GetComponent<MeshFilter>().mesh = galaxyMesh;
         }
 
-        MeshData m = generate();
+        MeshData m = generate(galaxyType);
 
         galaxyMesh.Clear();
         galaxyMesh.SetVertices(m.vertices);
@@ -42,23 +56,33 @@ public class GenerateMesh : MonoBehaviour {
     }
 
     //Generates spiral galaxy mesh
-    MeshData generate()
+    MeshData generate(int type)
     {
         MeshData m = new MeshData();
         m.vertices = new List<Vector3>();
         m.triangles = new List<int>();
 
-        List<int> lastVeritices = new List<int>();
+        switch (type)
+        {
+            case 0:
+                IcoSphere(ref m, size / 2);
+                IcoSphere(ref m, size);
 
-        for(int i = 0; i < segments; ++i)
-            AddSegment(i, ref m, ref lastVeritices);
+                break;
+            case 1:
+                List<int> lastVeritices = new List<int>();
 
-        MirrorAndAdd(ref m);
+                for (int i = 0; i < segments; ++i)
+                    AddSegment(i, ref m, ref lastVeritices, size * 2);
+
+                MirrorAndAdd(ref m);
+                break;
+        }
 
         return m;
     }
 
-    void AddSegment(int i, ref MeshData m, ref List<int> lastVeritices)
+    void AddSegment(int i, ref MeshData m, ref List<int> lastVeritices, float scale)
     {
         float t = i / (segments - 1f) * 5f;
         float x = Mathf.Sqrt(t) * Mathf.Cos(t);
@@ -71,15 +95,13 @@ public class GenerateMesh : MonoBehaviour {
 
         Vector3 nextForDir = pos - new Vector3(Mathf.Sqrt(t) * Mathf.Cos(t), 0, Mathf.Sqrt(t) * Mathf.Sin(t));
 
-        Debug.DrawRay(pos * 30, nextForDir * 30, Color.red, 1000);
-
         Quaternion direction = Quaternion.LookRotation(nextForDir.normalized);
 
         if (i == segments - 1)
         {
             //Last vert only needs to add self and connect to last verts
             int vertIndex = m.vertices.Count;
-            m.vertices.Add(pos * 30);
+            m.vertices.Add(pos * scale);
             for (int j = 0; j < lastVeritices.Count; ++j)
             {
                 m.triangles.Add(vertIndex);
@@ -99,7 +121,7 @@ public class GenerateMesh : MonoBehaviour {
                 Vector3 offset = vertIndexToVec(j, direction.eulerAngles.y) * spread;
                 offset.y *= 0.2f; // Squish up/down
 
-                m.vertices.Add((pos + offset) * 30);
+                m.vertices.Add((pos + offset) * scale);
             }
 
             //Add polygons attaching new segment to old segment
@@ -137,5 +159,107 @@ public class GenerateMesh : MonoBehaviour {
     Vector3 vertIndexToVec(int i, float angle)
     {
         return Quaternion.Euler(0, angle, i * 360f / vertsPerSegment) * Vector3.up;
+    }
+
+    void IcoSphere(ref MeshData m, float scale)
+    {
+        int offset = m.vertices.Count;
+
+        float t = 0.5f + Mathf.Sqrt(5) / 2;
+
+        m.vertices.Add(new Vector3(-1, +t, 0) * scale);
+        m.vertices.Add(new Vector3(+1, +t, 0) * scale);
+        m.vertices.Add(new Vector3(-1, -t, 0) * scale);
+        m.vertices.Add(new Vector3(+1, -t, 0) * scale);
+
+        m.vertices.Add(new Vector3(0, -1, +t) * scale);
+        m.vertices.Add(new Vector3(0, +1, +t) * scale);
+        m.vertices.Add(new Vector3(0, -1, -t) * scale);
+        m.vertices.Add(new Vector3(0, +1, -t) * scale);
+
+        m.vertices.Add(new Vector3(+t, 0, -1) * scale);
+        m.vertices.Add(new Vector3(+t, 0, +1) * scale);
+        m.vertices.Add(new Vector3(-t, 0, -1) * scale);
+        m.vertices.Add(new Vector3(-t, 0, +1) * scale);
+
+        m.triangles.Add(0 + offset);
+        m.triangles.Add(11 + offset);
+        m.triangles.Add(5 + offset);
+
+        m.triangles.Add(0 + offset);
+        m.triangles.Add(5 + offset);
+        m.triangles.Add(1 + offset);
+
+        m.triangles.Add(0 + offset);
+        m.triangles.Add(1 + offset);
+        m.triangles.Add(7 + offset);
+
+        m.triangles.Add(0 + offset);
+        m.triangles.Add(7 + offset);
+        m.triangles.Add(10 + offset);
+
+        m.triangles.Add(0 + offset);
+        m.triangles.Add(10 + offset);
+        m.triangles.Add(11 + offset);
+
+        m.triangles.Add(1 + offset);
+        m.triangles.Add(5 + offset);
+        m.triangles.Add(9 + offset);
+
+        m.triangles.Add(5 + offset);
+        m.triangles.Add(11 + offset);
+        m.triangles.Add(4 + offset);
+
+        m.triangles.Add(11 + offset);
+        m.triangles.Add(10 + offset);
+        m.triangles.Add(2 + offset);
+
+        m.triangles.Add(10 + offset);
+        m.triangles.Add(7 + offset);
+        m.triangles.Add(6 + offset);
+
+        m.triangles.Add(7 + offset);
+        m.triangles.Add(1 + offset);
+        m.triangles.Add(8 + offset);
+
+        m.triangles.Add(3 + offset);
+        m.triangles.Add(9 + offset);
+        m.triangles.Add(4 + offset);
+
+        m.triangles.Add(3 + offset);
+        m.triangles.Add(4 + offset);
+        m.triangles.Add(2 + offset);
+
+        m.triangles.Add(3 + offset);
+        m.triangles.Add(2 + offset);
+        m.triangles.Add(6 + offset);
+
+        m.triangles.Add(3 + offset);
+        m.triangles.Add(6 + offset);
+        m.triangles.Add(8 + offset);
+
+        m.triangles.Add(3 + offset);
+        m.triangles.Add(8 + offset);
+        m.triangles.Add(9 + offset);
+
+        m.triangles.Add(4 + offset);
+        m.triangles.Add(9 + offset);
+        m.triangles.Add(5 + offset);
+
+        m.triangles.Add(2 + offset);
+        m.triangles.Add(4 + offset);
+        m.triangles.Add(11 + offset);
+
+        m.triangles.Add(6 + offset);
+        m.triangles.Add(2 + offset);
+        m.triangles.Add(10 + offset);
+
+        m.triangles.Add(8 + offset);
+        m.triangles.Add(6 + offset);
+        m.triangles.Add(7 + offset);
+
+        m.triangles.Add(9 + offset);
+        m.triangles.Add(8 + offset);
+        m.triangles.Add(1 + offset);
     }
 }

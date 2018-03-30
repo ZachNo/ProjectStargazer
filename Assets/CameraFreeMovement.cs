@@ -18,24 +18,30 @@ public class CameraFreeMovement : MonoBehaviour {
     float rotationY = 0.0f;
     float rotationX = 0.0f;
 
+    int modifier = 1;
+
     void Update()
     {
-        if (Input.GetKey(KeyCode.RightArrow))
+        if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
-            transform.position += transform.right * speed * Time.deltaTime;
+            transform.position += transform.right * speed * Time.deltaTime * modifier;
         }
-        if (Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            transform.position += -transform.right * speed * Time.deltaTime;
+            transform.position += -transform.right * speed * Time.deltaTime * modifier;
         }
-        if (Input.GetKey(KeyCode.UpArrow))
+        if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
-            transform.position += transform.forward * speed * Time.deltaTime;
+            transform.position += transform.forward * speed * Time.deltaTime * modifier;
         }
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
-            transform.position += -transform.forward * speed * Time.deltaTime;
+            transform.position += -transform.forward * speed * Time.deltaTime * modifier;
         }
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        { modifier = 2; }
+        else
+        { modifier = 1; }
         if (Input.GetMouseButton(0))
         {
             rotationX += Input.GetAxis("Mouse X") * sensX * Time.deltaTime;

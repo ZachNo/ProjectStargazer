@@ -6,11 +6,10 @@ public class Galaxy : MonoBehaviour {
 
     int ss;
     public float size;
-    int galaxyType;
+    public int galaxyType;
     float distToShow;
 
     public float spiralSpread = 0.1f;
-    public int starsPerCloud = 10;
 
     GameObject[] ssObjects;
     GameObject[] gasObjects;
@@ -25,49 +24,23 @@ public class Galaxy : MonoBehaviour {
         galaxyType = Random.Range(0, 2);
 
         transform.localScale = new Vector3(size, size, size);
+        transform.rotation = Random.rotation;
 
         distToShow = UniverseSettings.UniverseScale * size;
 
-        regenStars = Random.state;
+        gasObjects = new GameObject[2];
 
-        ssObjects = new GameObject[ss];
-        gasObjects = new GameObject[(int)Mathf.Ceil(ss / (float)starsPerCloud)];
+        Color randomColor = Random.ColorHSV(0, 1, 0, 0.4f, 0.7f, 1);
 
-        Color avgColor = new Color();
+        gasObjects[0] = Instantiate(UniverseSettings.Gas, transform.position, transform.rotation, transform);
+        gasObjects[1] = Instantiate(UniverseSettings.GasDark, transform.position, transform.rotation, transform);
+        gasObjects[0].SetActive(true);
+        gasObjects[1].SetActive(true);
 
-        for (int i = 0; i < ss; ++i)
-        {
-            switch (galaxyType)
-            {
-                case 0:
-                    ssObjects[i] = Instantiate(UniverseSettings.SolarSystem, transform.position + Random.insideUnitSphere * size * 100, Quaternion.identity, transform);
-                    break;
-                case 1:
-                    float negative = Random.Range(-1f, 1f) > 0 ? 1 : -1;
-                    float t = Mathf.Pow(Random.value, 3) * 5f;
-                    float x = negative * Mathf.Sqrt(t) * Mathf.Cos(t) + Random.Range(-spiralSpread, spiralSpread) * (5.5f - t);
-                    float y = negative * Mathf.Sqrt(t) * Mathf.Sin(t) + Random.Range(-spiralSpread, spiralSpread) * (5.5f - t);
-                    ssObjects[i] = Instantiate(UniverseSettings.SolarSystem,
-                        transform.position + new Vector3(x, Random.Range(-spiralSpread, spiralSpread), y) * size * 100,
-                        Quaternion.identity, transform);
-                    break;
-            }
-
-            avgColor += ssObjects[i].GetComponent<SolarSystem>().tempColor;
-        }
-
-        float maxComp = avgColor.maxColorComponent;
-        avgColor.r /= maxComp;// * Mathf.Sqrt(pos.magnitude);
-        avgColor.g /= maxComp;// * Mathf.Sqrt(pos.magnitude);
-        avgColor.b /= maxComp;// * Mathf.Sqrt(pos.magnitude);
-        avgColor.a = 1;
-
-        gasObjects[0] = Instantiate(UniverseSettings.Gas, Vector3.zero, Quaternion.identity, transform);
-   
         var particleSystem = gasObjects[0].GetComponent<ParticleSystem>().main;
-        particleSystem.startColor = avgColor;
+        particleSystem.startColor = randomColor;
 
-
+        regenStars = Random.state;
     }
 
     void Update()
@@ -93,7 +66,7 @@ public class Galaxy : MonoBehaviour {
                         float x = negative * Mathf.Sqrt(t) * Mathf.Cos(t) + Random.Range(-spiralSpread, spiralSpread) * (5.5f - t);
                         float y = negative * Mathf.Sqrt(t) * Mathf.Sin(t) + Random.Range(-spiralSpread, spiralSpread) * (5.5f - t);
                         ssObjects[i] = Instantiate(UniverseSettings.SolarSystem,
-                            transform.position + new Vector3(x, Random.Range(-spiralSpread, spiralSpread), y) * size * 100,
+                            transform.position + transform.rotation * new Vector3(x, Random.Range(-spiralSpread, spiralSpread), y) * size * 100,
                             Quaternion.identity, transform);
                         break;
                 }
