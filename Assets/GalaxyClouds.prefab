@@ -54,6 +54,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   galaxyMesh: {fileID: 0}
+  segments: 16
+  vertsPerSegment: 4
+  overall_spread: 0.1
 --- !u!198 &198686759579312586
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -266,7 +269,7 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 30
+      scalar: 50
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -674,7 +677,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10000
+      scalar: 100000
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -3454,7 +3457,7 @@ ParticleSystemRenderer:
   m_RenderMode: 0
   m_SortMode: 0
   m_MinParticleSize: 0
-  m_MaxParticleSize: 10
+  m_MaxParticleSize: 50
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2

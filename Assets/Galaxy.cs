@@ -35,18 +35,18 @@ public class Galaxy : MonoBehaviour {
         gasObjects[0].SetActive(true);
         gasObjects[1].SetActive(true);
 
-        Color randomColor = Random.ColorHSV(0, 1, 0, 0.2f, 0.5f, 0.9f);
+        Color randomColor = Random.ColorHSV(0, 1, 0.5f, 0.5f, 1, 1);
 
         var particleSystem = gasObjects[0].GetComponent<ParticleSystem>().main;
         particleSystem.startColor = randomColor;
-        particleSystem.maxParticles = (int)(size * 10000);
+        particleSystem.maxParticles = (int)(size * 1000);
 
-        randomColor = Random.ColorHSV(0, 1, 0, 1, 0.7f, 1, 0.1f, 0.3f);
+        randomColor = Random.ColorHSV(0, 1, 0.5f, 0.5f, 1, 1, 0.1f, 0.1f);
 
         var particleSystem2 = gasObjects[1].GetComponent<ParticleSystem>().main;
         particleSystem2.startColor = randomColor;
 
-        particleSystem2.maxParticles = (int)(size * 10000);
+        particleSystem2.maxParticles = (int)(size * 1000);
 
         regenStars = Random.state;
     }

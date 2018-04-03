@@ -10,9 +10,17 @@ public class DemoMode : MonoBehaviour {
 	void Start () {
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKey(KeyCode.Space))
+        {
+            GameObject ug = GameObject.Find("UniverseGen");
+            if (ug == null)
+                return;
+
+            ug.GetComponent<UniverseGen>().Regenerate();
+        }
+    }
 }

@@ -102,7 +102,37 @@ public class UniverseGen : MonoBehaviour {
                 {
                     for (int k = 0; k < GalaxyCells; ++k)
                     {
-                        Instantiate(Galaxy, transform.position + new Vector3(i, j, k) * UniverseScale, Quaternion.identity, transform);
+                        galaxies[i] = Instantiate(Galaxy, transform.position + new Vector3(i, j, k) * UniverseScale, Quaternion.identity, transform);
+                    }
+                }
+            }
+        }
+    }
+
+
+    public void Regenerate()
+    {
+        Seed = (int)(Random.value * int.MaxValue);
+        UniverseSettings.Seed = Seed;
+
+        for (int i = 0; i < GalaxyCells * GalaxyCells * GalaxyCells; ++i)
+        {
+            Destroy(galaxies[i]);
+        }
+
+        galaxies = new GameObject[GalaxyCells * GalaxyCells * GalaxyCells];
+
+        if (GenerateUniverse)
+        {
+            galaxies = new GameObject[GalaxyCells * GalaxyCells * GalaxyCells];
+
+            for (int i = 0; i < GalaxyCells; ++i)
+            {
+                for (int j = 0; j < GalaxyCells; ++j)
+                {
+                    for (int k = 0; k < GalaxyCells; ++k)
+                    {
+                        galaxies[i] = Instantiate(Galaxy, transform.position + new Vector3(i, j, k) * UniverseScale, Quaternion.identity, transform);
                     }
                 }
             }
