@@ -20,34 +20,52 @@ public class CameraFreeMovement : MonoBehaviour {
 
     int modifier = 1;
 
+    DemoMode d;
+
+    void Start()
+    {
+        d = GameObject.Find("Main Camera").GetComponent<DemoMode>();
+    }
+
     void Update()
     {
         if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
-            transform.position += transform.right * speed * Time.deltaTime * modifier;
+            transform.position += transform.right * Time.deltaTime * speed * modifier;
+            d.userCon();
         }
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
-            transform.position += -transform.right * speed * Time.deltaTime * modifier;
+            transform.position += -transform.right * Time.deltaTime * speed * modifier;
+            d.userCon();
         }
         if (Input.GetKey(KeyCode.UpArrow) || Input.GetKey(KeyCode.W))
         {
-            transform.position += transform.forward * speed * Time.deltaTime * modifier;
+            transform.position += transform.forward * Time.deltaTime * speed * modifier;
+            d.userCon();
         }
         if (Input.GetKey(KeyCode.DownArrow) || Input.GetKey(KeyCode.S))
         {
-            transform.position += -transform.forward * speed * Time.deltaTime * modifier;
+            transform.position += -transform.forward * Time.deltaTime * speed * modifier;
+            d.userCon();
         }
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
-        { modifier = 2; }
-        else
-        { modifier = 1; }
+        {
+            modifier = 2;
+            d.userCon();
+        }
+        else if(modifier == 2)
+        {
+            modifier = 1;
+            d.userCon();
+        }
         if (Input.GetMouseButton(0))
         {
             rotationX += Input.GetAxis("Mouse X") * sensX * Time.deltaTime;
             rotationY += Input.GetAxis("Mouse Y") * sensY * Time.deltaTime;
             rotationY = Mathf.Clamp(rotationY, minY, maxY);
             transform.localEulerAngles = new Vector3(-rotationY, rotationX, 0);
+            d.userCon();
         }
     }
 }

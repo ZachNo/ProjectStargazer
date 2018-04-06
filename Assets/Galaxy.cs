@@ -32,8 +32,6 @@ public class Galaxy : MonoBehaviour {
 
         gasObjects[0] = Instantiate(UniverseSettings.Gas, transform.position, transform.rotation, transform);
         gasObjects[1] = Instantiate(UniverseSettings.GasDark, transform.position, transform.rotation, transform);
-        gasObjects[0].SetActive(true);
-        gasObjects[1].SetActive(true);
 
         Color randomColor = Random.ColorHSV(0, 1, 0.5f, 0.5f, 1, 1);
 
@@ -47,6 +45,8 @@ public class Galaxy : MonoBehaviour {
         particleSystem2.startColor = randomColor;
 
         particleSystem2.maxParticles = (int)(size * 1000);
+
+        StartCoroutine(updateParticles());
 
         regenStars = Random.state;
     }
@@ -87,6 +87,27 @@ public class Galaxy : MonoBehaviour {
                 Destroy(ssObjects[i]);
             }
             ssObjects = null;
+        }
+    }
+
+    IEnumerator updateParticles()
+    {
+        if (gasObjects != null)
+        {
+            for (int i = 0; i < 2; ++i)
+            {
+                gasObjects[i].GetComponent<ParticleSystem>().Stop();
+            }
+        }
+
+        yield return new WaitForEndOfFrame();
+
+        if (gasObjects != null)
+        {
+            for (int i = 0; i < 2; ++i)
+            {
+                gasObjects[i].GetComponent<ParticleSystem>().Play();
+            }
         }
     }
 }

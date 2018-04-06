@@ -112,7 +112,7 @@ public class UniverseGen : MonoBehaviour {
 
     public void Regenerate()
     {
-        Seed = (int)(Random.value * int.MaxValue);
+        Seed = (int)(System.DateTime.Now.ToBinary());
         UniverseSettings.Seed = Seed;
 
         for (int i = 0; i < GalaxyCells * GalaxyCells * GalaxyCells; ++i)
