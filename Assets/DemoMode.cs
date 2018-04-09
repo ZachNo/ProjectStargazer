@@ -64,8 +64,8 @@ public class DemoMode : MonoBehaviour {
                 if (ug != null)
                 {
                     ug.GetComponent<UniverseGen>().Regenerate();
-                    dist = ug.GetComponentInChildren<Galaxy>().size * Random.Range(50f, 150f);
-                    speed = Random.Range(0.01f, 0.1f);
+                    dist = ug.GetComponentInChildren<Galaxy>().size * Random.Range(-20f, 150f);
+                    speed = Random.Range(0.05f, 0.3f);
                 }
             }
 

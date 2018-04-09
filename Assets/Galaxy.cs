@@ -59,26 +59,7 @@ public class Galaxy : MonoBehaviour {
 
         if (ssObjects == null && Vector3.Distance(cam.transform.position, transform.position) < distToShow)
         {
-            Random.state = regenStars;
-            ssObjects = new GameObject[ss];
-            for (int i = 0; i < ss; ++i)
-            {
-                switch (galaxyType)
-                {
-                    case 0:
-                        ssObjects[i] = Instantiate(UniverseSettings.SolarSystem, transform.position + Random.insideUnitSphere * size * 100, Quaternion.identity, transform);
-                        break;
-                    case 1:
-                        float negative = Random.Range(-1f, 1f) > 0 ? 1 : -1;
-                        float t = Mathf.Pow(Random.value, 3) * 5f;
-                        float x = negative * Mathf.Sqrt(t) * Mathf.Cos(t) + Random.Range(-spiralSpread, spiralSpread) * (5.5f - t);
-                        float y = negative * Mathf.Sqrt(t) * Mathf.Sin(t) + Random.Range(-spiralSpread, spiralSpread) * (5.5f - t);
-                        ssObjects[i] = Instantiate(UniverseSettings.SolarSystem,
-                            transform.position + transform.rotation * new Vector3(x, Random.Range(-spiralSpread, spiralSpread), y) * size * 100,
-                            Quaternion.identity, transform);
-                        break;
-                }
-            }
+            StartCoroutine(createStars());
         }
         else if (ssObjects != null && Vector3.Distance(cam.transform.position, transform.position) > distToShow)
         {
@@ -109,5 +90,30 @@ public class Galaxy : MonoBehaviour {
                 gasObjects[i].GetComponent<ParticleSystem>().Play();
             }
         }
+    }
+
+    IEnumerator createStars()
+    {
+        Random.state = regenStars;
+        ssObjects = new GameObject[ss];
+        for (int i = 0; i < ss; ++i)
+        {
+            switch (galaxyType)
+            {
+                case 0:
+                    ssObjects[i] = Instantiate(UniverseSettings.SolarSystem, transform.position + Random.insideUnitSphere * size * 100, Quaternion.identity, transform);
+                    break;
+                case 1:
+                    float negative = Random.Range(-1f, 1f) > 0 ? 1 : -1;
+                    float t = Mathf.Pow(Random.value, 3) * 5f;
+                    float x = negative * Mathf.Sqrt(t) * Mathf.Cos(t) + Random.Range(-spiralSpread, spiralSpread) * (5.5f - t);
+                    float y = negative * Mathf.Sqrt(t) * Mathf.Sin(t) + Random.Range(-spiralSpread, spiralSpread) * (5.5f - t);
+                    ssObjects[i] = Instantiate(UniverseSettings.SolarSystem,
+                        transform.position + transform.rotation * new Vector3(x, Random.Range(-spiralSpread, spiralSpread), y) * size * 100,
+                        Quaternion.identity, transform);
+                    break;
+            }
+        }
+        yield return null;
     }
 }

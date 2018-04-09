@@ -31,7 +31,7 @@ public class SolarSystem : MonoBehaviour {
         transform.localScale = new Vector3(size, size, size);
     }
 
-    void Update()
+    /*void Update()
     {
         GameObject cam = GameObject.Find("Main Camera");
         if (cam == null)
@@ -53,7 +53,7 @@ public class SolarSystem : MonoBehaviour {
             }
             planetObjects = null;
         }
-    }
+    }*/
 
 
     //Color temperature to an RGB color

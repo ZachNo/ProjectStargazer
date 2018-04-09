@@ -27,11 +27,7 @@ public class SunColor : MonoBehaviour {
         mpb = new MaterialPropertyBlock();
         colorID = Shader.PropertyToID("_Color");
         emcolorID = Shader.PropertyToID("_EmissionColor");
-    }
-	
-	// Update is called once per frame
-	void Update ()
-    {
+
         mpb.SetColor(colorID, tempColor);
         mpb.SetColor(emcolorID, tempColor);
         render.SetPropertyBlock(mpb);
